@@ -1,0 +1,28 @@
+name: "Feature Request"
+description: "Sugira uma nova funcionalidade."
+labels: ["feature"]
+
+body:
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Descrição da Funcionalidade
+      description: "Descreva a funcionalidade que deseja adicionar."
+      placeholder: "Permitir que o usuário possa fazer reset de senha pelo app."
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Critérios de Aceitação
+      description: "O que precisa estar funcionando para considerar a funcionalidade concluída?"
+      placeholder: "Usuário recebe email de recuperação e consegue redefinir a senha."
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Contexto adicional
+      description: "Qualquer informação extra que ajude a entender melhor a feature."

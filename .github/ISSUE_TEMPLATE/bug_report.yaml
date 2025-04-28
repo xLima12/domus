@@ -1,0 +1,36 @@
+name: "Bug Report"
+description: "Reporte um problema encontrado."
+labels: ["bug"]
+
+body:
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Descrição do Bug
+      description: "Descreva o bug encontrado."
+      placeholder: "Ao fazer login, a aplicação retorna erro 500..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Passos para Reproduzir
+      description: "Liste os passos para reproduzir o erro."
+      placeholder: "1. Ir para tela de login\n2. Preencher email\n3. Clicar em login\n4. Erro 500 aparece"
+    validations:
+      required: true
+
+  - type: input
+    id: expected-behavior
+    attributes:
+      label: Comportamento Esperado
+      placeholder: "Usuário deveria ser redirecionado para o dashboard."
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Ambiente
+      placeholder: "Desenvolvimento, Produção, etc."

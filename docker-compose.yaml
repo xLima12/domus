@@ -1,0 +1,89 @@
+services:
+  postgres:
+    container_name: domus_postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=domus_db
+      - POSTGRES_USER=domus_user
+      - POSTGRES_PASSWORD=domus_password
+      - POSTGRES_URL=jdbc:postgresql://localhost:5432/domus_db
+    ports:
+      - 5432:5432
+    networks:
+      - dom-network-app
+
+  sonarqube:
+    container_name: domus_sonarqube
+    image: sonarqube:community
+    ports:
+      - 9000:9000
+    environment:
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://postgres:5432/domus_db
+      - SONARQUBE_JDBC_USERNAME=domus_user
+      - SONARQUBE_JDBC_PASSWORD=domus_password
+    depends_on:
+      - postgres
+    networks:
+      - dom-network-app
+
+  rabbitmq:
+    container_name: domus_rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    networks:
+      - dom-network-app
+
+  prometheus:
+    container_name: domus_prometheus
+    image: prom/prometheus:latest
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - dom-network-app
+    ports:
+      - 9090:9090
+
+  grafana:
+    container_name: domus_grafana
+    image: grafana/grafana:latest
+    ports:
+      -  3000:3000
+    networks:
+      - dom-network-app
+
+  rabbitmq-exporter:
+    container_name: rabbitmq-exporter
+    image: kbudde/rabbitmq-exporter
+    ports:
+      - 9419:9419
+    environment:
+      - RABBIT_URL=http://admin:admin@rabbitmq:15672
+    depends_on:
+      - rabbitmq
+    networks:
+      - dom-network-app
+
+  postgres-exporter:
+    container_name: postgres-exporter
+    image: prometheuscommunity/postgres-exporter
+    ports:
+      - 9187:9187
+    environment:
+      - DATA_SOURCE_NAME=postgresql://domus_user:domus_password@postgres:5432/domus_db?sslmode=disable
+    depends_on:
+      - postgres
+    networks:
+      - dom-network-app
+
+networks:
+  dom-network-app:
+    external: true
+
+volumes:
+  prometheus_data:
