@@ -1,5 +1,6 @@
 package br.com.codenoir.domus.application.vo;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -17,6 +18,7 @@ public class Password {
     @NotBlank(message = "Password cannot blank")
     @NotNull(message = "Password cannot null")
     @Min(value = 8, message = "Password must have at least 8 characters")
+    @Column(name = "password")
     private String value;
 
     public Password(String value) {
