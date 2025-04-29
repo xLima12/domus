@@ -14,6 +14,7 @@ public class EmployeeEntity extends UserEntity {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private CompanyEntity companyId;
+
     private String roles;
 
 }
