@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  graphql:
+    path: /graphql
+    schema:
+      locations: classpath:graphql/**/
+    graphiql:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+  endpoint:
+    health:
+      show-details: always
+
+domus:
+  backend-core:
+    url: http://localhost:8081/api
