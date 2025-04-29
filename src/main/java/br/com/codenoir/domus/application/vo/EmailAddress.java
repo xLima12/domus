@@ -1,5 +1,6 @@
 package br.com.codenoir.domus.application.vo;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -15,6 +16,7 @@ public class EmailAddress {
     @NotBlank(message = "E-mail cannot blank")
     @NotNull(message = "E-mail cannot null")
     @Email(message = "E-mail is invalid")
+    @Column(name = "email")
     private String value;
 
     public EmailAddress(String value) {

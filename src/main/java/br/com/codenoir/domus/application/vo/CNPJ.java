@@ -1,5 +1,6 @@
 package br.com.codenoir.domus.application.vo;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ public class CNPJ {
     @NotBlank(message = "CNPJ cannot blank")
     @NotNull(message = "CNPJ cannot null")
     @org.hibernate.validator.constraints.br.CNPJ(message = "CNPJ is invalid")
+    @Column(name = "cnpj")
     private String value;
 
     public CNPJ(String value) {
