@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 public class OwnerEntity extends UserEntity {
 
     private String ownerType;
+
     @Embedded
     private CPF cpf;
 
