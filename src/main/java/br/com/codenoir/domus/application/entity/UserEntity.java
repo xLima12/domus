@@ -2,6 +2,7 @@ package br.com.codenoir.domus.application.entity;
 
 import br.com.codenoir.domus.application.vo.EmailAddress;
 import br.com.codenoir.domus.application.vo.Password;
+import br.com.codenoir.domus.application.vo.Username;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +18,8 @@ public abstract class UserEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String userName;
+    @Embedded
+    private Username userName;
 
     @Embedded
     private Password password;

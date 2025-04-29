@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 public class EmployeeEntity extends UserEntity {
 
     @ManyToOne
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id", insertable=false, updatable=false)
     private CompanyEntity companyId;
 
     private String roles;

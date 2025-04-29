@@ -27,7 +27,7 @@ public class OfferPropertyEntity {
     private String typeOffer;
 
     @OneToOne()
-    @Column(name = "property_id")
+    @JoinColumn(name = "property_id", insertable=false, updatable=false)
     private PropertyEntity propertyId;
 
     @Min(value = 1, message = "Price should not be less than 1 (one).")

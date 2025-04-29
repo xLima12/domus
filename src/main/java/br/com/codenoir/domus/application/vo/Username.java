@@ -13,37 +13,33 @@ import java.util.Objects;
 @Embeddable
 @Data
 @NoArgsConstructor
-public class Password {
+public class Username {
 
-    @NotBlank(message = "Password cannot blank")
-    @NotNull(message = "Password cannot null")
-    @Min(value = 8, message = "Password must have at least 8 characters")
-    @Column(name = "password")
+    @NotBlank(message = "Username cannot blank")
+    @NotNull(message = "Username cannot null")
+    @Min(value = 6, message = "Username must have at least 6 characters")
+    @Column(name = "username")
     private String value;
 
-    public Password(String value) {
+    public Username(String value) {
         this.value = value;
     }
 
-    public static Password encrypted(String encryptedValue) {
-        return new Password(encryptedValue);
+    @Override
+    public String toString() {
+        return value;
     }
 
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;
-        if(!(o instanceof Password password)) return false;
-        return Objects.equals(value, password.value);
+        if(!(o instanceof Username username)) return false;
+        return Objects.equals(value, username.value);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(value);
-    }
-
-    @Override
-    public String toString() {
-        return "******";
     }
 
 }
