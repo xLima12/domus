@@ -1,4 +1,4 @@
-package br.com.codenoir.domus;
+package br.com.codenoir.domus.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
