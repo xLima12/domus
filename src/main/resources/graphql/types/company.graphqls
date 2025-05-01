@@ -1,0 +1,7 @@
+type Company {
+    id: ID!
+    cnpj: String!
+    name: String!
+    emailAddress: String!
+    username: String!
+}

@@ -1,38 +1,29 @@
-package br.com.codenoir.domus.application.entity;
+package br.com.codenoir.domus.application.dto;
 
 import br.com.codenoir.domus.application.vo.CNPJ;
 import br.com.codenoir.domus.application.vo.EmailAddress;
 import br.com.codenoir.domus.application.vo.Password;
 import br.com.codenoir.domus.application.vo.Username;
-import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.util.UUID;
-
-@Entity(name = "tb_company")
 @Data
-public class CompanyEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+public class CompanyRequestDTO {
 
     @NotBlank(message = "Name cannot blank")
-    @NotNull(message = "Name cannot null")
     private String name;
 
-    @Embedded
+    @Valid
     private Username username;
 
-    @Embedded
+    @Valid
     private Password password;
 
-    @Embedded
+    @Valid
     private CNPJ cnpj;
 
-    @Embedded
+    @Valid
     private EmailAddress emailAddress;
 
 }

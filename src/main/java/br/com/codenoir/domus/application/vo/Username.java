@@ -5,6 +5,7 @@ import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +18,7 @@ public class Username {
 
     @NotBlank(message = "Username cannot blank")
     @NotNull(message = "Username cannot null")
-    @Min(value = 6, message = "Username must have at least 6 characters")
+    @Size(min = 6, message = "Username must have at least 6 characters")
     @Column(name = "username")
     private String value;
 

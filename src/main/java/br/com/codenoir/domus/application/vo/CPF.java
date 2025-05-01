@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,8 +15,8 @@ public class CPF {
 
     @NotBlank(message = "CPF cannot blank")
     @NotNull(message = "CPF cannot null")
-    @org.hibernate.validator.constraints.br.CPF(message = "CPF is invalid")
     @Column(name = "cpf")
+    @Size(min = 11, max = 11, message = "CPF must have exactly 11 numeric digits")
     private String value;
 
     public CPF(String value) {
