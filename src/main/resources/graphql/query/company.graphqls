@@ -1,0 +1,4 @@
+type Query {
+    getAllCompanies: [Company!]!
+    getCompany(id: ID!): Company
+}

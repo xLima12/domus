@@ -19,7 +19,7 @@ public abstract class UserEntity {
     private UUID id;
 
     @Embedded
-    private Username userName;
+    private Username username;
 
     @Embedded
     private Password password;
