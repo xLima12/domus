@@ -1,0 +1,7 @@
+input CompanyInput {
+    name: String!
+    username: String!
+    password: String!
+    cnpj: String!
+    emailAddress: String!
+}

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CompanyService {
@@ -18,20 +20,45 @@ public class CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
 
-    public CompanyEntity create(CompanyRequestDTO companyRequest) {
-        var password = new BCryptPasswordEncoderService().encode(companyRequest.getPassword().getValue());
-        var company = new CompanyEntity();
-        company.setName(companyRequest.getName());
-        company.setUsername(companyRequest.getUsername());
-        company.setPassword(new Password(password));
-        company.setCnpj(new CNPJ(companyRequest.getCnpj().getValue()));
-        company.setEmailAddress(new EmailAddress(companyRequest.getEmailAddress().getValue()));
+    @Autowired
+    private BCryptPasswordEncoderService passwordEncoder;
 
-        return this.companyRepository.save(company);
+    public Optional<CompanyEntity> findById(UUID id) {
+        return companyRepository.findById(id);
     }
 
     public List<CompanyEntity> findAll() {
-        return this.companyRepository.findAll();
+        return companyRepository.findAll();
+    }
+
+    public CompanyEntity create(CompanyRequestDTO companyRequest) {
+        var encodedPassword = passwordEncoder.encode(companyRequest.getPassword().getValue());
+        var company = new CompanyEntity();
+        company.setName(companyRequest.getName());
+        company.setUsername(companyRequest.getUsername());
+        company.setPassword(new Password(encodedPassword));
+        company.setCnpj(new CNPJ(companyRequest.getCnpj().getValue()));
+        company.setEmailAddress(new EmailAddress(companyRequest.getEmailAddress().getValue()));
+
+        return companyRepository.save(company);
+    }
+
+    public CompanyEntity update(UUID id, CompanyRequestDTO companyRequest) {
+        return companyRepository.findById(id).map(existingCompany -> {
+            existingCompany.setName(companyRequest.getName());
+            existingCompany.setUsername(companyRequest.getUsername());
+            existingCompany.setCnpj(new CNPJ(companyRequest.getCnpj().getValue()));
+            existingCompany.setEmailAddress(new EmailAddress(companyRequest.getEmailAddress().getValue()));
+            return companyRepository.save(existingCompany);
+        }).orElseThrow(() -> new IllegalArgumentException("Company not found with id: " + id));
+    }
+
+    public Boolean delete(UUID id) {
+        if(companyRepository.existsById(id)) {
+            companyRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 }

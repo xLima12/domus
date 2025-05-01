@@ -4,5 +4,4 @@ type Company {
     name: String!
     emailAddress: String!
     username: String!
-    password: String!
 }

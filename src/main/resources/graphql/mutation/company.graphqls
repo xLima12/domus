@@ -1,11 +1,5 @@
 type Mutation {
-    createCompany(input: CreateCompanyInput!): Company!
-}
-
-input CreateCompanyInput {
-    name: String!
-    username: String!
-    password: String!
-    cnpj: String!
-    emailAddress: String!
+    createCompany(input: CompanyInput!): Company!
+    updateCompany(id: ID!, input: CompanyInput!): Company!
+    deleteCompany(id: ID!): Boolean!
 }
