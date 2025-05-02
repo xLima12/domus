@@ -1,10 +1,12 @@
 package br.com.codenoir.domus.application.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import br.com.codenoir.domus.application.enums.Roles;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "tb_employee")
@@ -12,9 +14,12 @@ import lombok.EqualsAndHashCode;
 public class EmployeeEntity extends UserEntity {
 
     @ManyToOne
-    @JoinColumn(name = "company_id", insertable=false, updatable=false)
-    private CompanyEntity companyId;
+    @JoinColumn(name = "company_id")
+    private CompanyEntity company;
 
-    private String roles;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "employee_roles", joinColumns = @JoinColumn(name = "employee_id"))
+    @Enumerated(EnumType.STRING)
+    private List<@NotNull Roles> roles;
 
 }

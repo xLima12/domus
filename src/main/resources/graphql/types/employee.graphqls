@@ -1,0 +1,9 @@
+type Employee {
+    id: ID!
+    username: String!
+    firstName: String!
+    lastName: String!
+    emailAddress: String!
+    company_id: String!
+    roles: [String!]!
+}
