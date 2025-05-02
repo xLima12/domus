@@ -1,0 +1,9 @@
+input EmployeeInput {
+    username: String!
+    password: String!
+    firstName: String!
+    lastName: String!
+    emailAddress: String!
+    company_id: String!
+    roles: [String!]!
+}
