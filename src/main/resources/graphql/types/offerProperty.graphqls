@@ -1,0 +1,7 @@
+type OfferProperty {
+    id: ID!
+    date: String
+    offerType: Int!
+    property_id: String!
+    price: String!
+}
