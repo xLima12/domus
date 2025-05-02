@@ -1,9 +1,9 @@
 package br.com.codenoir.domus.application.entity;
 
+import br.com.codenoir.domus.application.enums.OfferType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -22,15 +22,14 @@ public class OfferPropertyEntity {
     @CreationTimestamp
     private LocalDateTime date;
 
-    @NotBlank(message = "Type Offer should not be blank")
-    @NotNull
-    private String typeOffer;
+    @NotNull(message = "Type Offer should not be null")
+    private OfferType offerType;
 
     @OneToOne()
     @JoinColumn(name = "property_id", insertable=false, updatable=false)
     private PropertyEntity propertyId;
 
-    @Min(value = 1, message = "Price should not be less than 1 (one).")
+    @Size(min = 1, message = "Price should not be less than 1 (one).")
     private BigDecimal price;
 
 }
