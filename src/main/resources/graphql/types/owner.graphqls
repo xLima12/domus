@@ -1,0 +1,14 @@
+enum OwnerType {
+    INDIVIDUAL
+    LEGAL_ENTITY
+}
+
+type Owner {
+    id: ID!
+    username: String!
+    firstName: String!
+    lastName: String!
+    emailAddress: String!
+    ownerType: OwnerType!
+    document: String!
+}
