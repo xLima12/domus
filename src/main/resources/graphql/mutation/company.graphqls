@@ -1,8 +1,0 @@
-type Mutation {
-    createCompany(input: CompanyInput!): Company!
-    updateCompany(id: ID!, input: CompanyInput!): Company!
-    deleteCompany(id: ID!): Boolean!
-    createEmployee(input: EmployeeInput!): Employee
-    updateEmployee(id: ID!, input: EmployeeInput!): Employee!
-    deleteEmployee(id: ID!): Boolean!
-}

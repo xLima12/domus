@@ -1,0 +1,9 @@
+input OwnerInput {
+    username: String!
+    password: String!
+    firstName: String!
+    lastName: String!
+    emailAddress: String!
+    ownerType: Int!
+    document: String!
+}

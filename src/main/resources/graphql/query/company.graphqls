@@ -1,6 +1,0 @@
-type Query {
-    getAllCompanies: [Company!]!
-    getCompany(id: ID!): Company
-    getEmployee(id: ID!): Employee
-    getAllEmployees: [Employee!]!
-}
