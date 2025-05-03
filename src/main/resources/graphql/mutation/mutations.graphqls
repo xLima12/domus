@@ -1,0 +1,17 @@
+type Mutation {
+    createCompany(input: CompanyInput!): Company!
+    updateCompany(id: ID!, input: CompanyInput!): Company!
+    deleteCompany(id: ID!): Boolean!
+
+    createEmployee(input: EmployeeInput!): Employee!
+    updateEmployee(id: ID!, input: EmployeeInput!): Employee!
+    deleteEmployee(id: ID!): Boolean!
+
+    createOfferProperty(input: OfferPropertyInput!): OfferProperty!
+    updateOfferProperty(id: ID!, input: OfferPropertyInput!): OfferProperty!
+    deleteOfferProperty(id: ID!): Boolean!
+
+    createOwner(input: OwnerInput!): Owner!
+    updateOwner(id: ID!, input: OwnerInput!): Owner!
+    deleteOwner(id: ID!): Boolean!
+}

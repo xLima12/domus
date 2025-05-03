@@ -31,13 +31,13 @@ public class OfferPropertyResolver {
     }
 
     @MutationMapping
-    public OfferPropertyEntity createOfferProperty(@Argument @Valid OfferPropertyRequestDTO offerPropertyRequestDTO) {
-        return offerPropertyService.create(offerPropertyRequestDTO);
+    public OfferPropertyEntity createOfferProperty(@Argument @Valid OfferPropertyRequestDTO input) {
+        return offerPropertyService.create(input);
     }
 
     @MutationMapping
-    public OfferPropertyEntity updateOfferProperty(@Argument UUID id, @Argument @Valid OfferPropertyRequestDTO offerPropertyRequestDTO) {
-        return offerPropertyService.update(id, offerPropertyRequestDTO);
+    public OfferPropertyEntity updateOfferProperty(@Argument UUID id, @Argument @Valid OfferPropertyRequestDTO input) {
+        return offerPropertyService.update(id, input);
     }
 
     @MutationMapping

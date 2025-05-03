@@ -1,0 +1,13 @@
+type Query {
+    getCompany(id: ID!): Company
+    getAllCompanies: [Company!]!
+
+    getEmployee(id: ID!): Employee
+    getAllEmployees: [Employee!]!
+
+    getOfferProperty(id: ID!): OfferProperty
+    getAllOfferProperties: [OfferProperty!]!
+
+    getOwner(id: ID!): Owner
+    getAllOwners: [Owner!]!
+}
