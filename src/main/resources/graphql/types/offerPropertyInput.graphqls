@@ -1,5 +1,5 @@
 input OfferPropertyInput {
     offerType: Int!
     property_id: String!
-    price: String!
+    price: Float!
 }
