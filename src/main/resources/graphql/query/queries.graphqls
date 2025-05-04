@@ -10,4 +10,7 @@ type Query {
 
     getOwner(id: ID!): Owner
     getAllOwners: [Owner!]!
+
+    getProperty(id: ID!): Property
+    getAllProperties: [Property!]!
 }

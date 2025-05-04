@@ -14,4 +14,8 @@ type Mutation {
     createOwner(input: OwnerInput!): Owner!
     updateOwner(id: ID!, input: OwnerInput!): Owner!
     deleteOwner(id: ID!): Boolean!
+
+    createProperty(input: PropertyInput!): Property!
+    updateProperty(id: ID!, input: PropertyInput!): Property!
+    deleteProperty(id: ID!): Boolean!
 }
