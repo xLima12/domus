@@ -1,0 +1,12 @@
+type Property {
+    id: ID!
+    name: String!
+    address: String!
+    bedrooms: Int!
+    livingRoom: Int!
+    kitchen: Int!
+    bathroom: Int!
+    garage: Int!
+    basement: Int!
+    owner_id: String!
+}
