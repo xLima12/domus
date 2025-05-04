@@ -2,6 +2,7 @@ package br.com.codenoir.domus.application.entity;
 
 import br.com.codenoir.domus.application.enums.OfferType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -29,7 +30,7 @@ public class OfferPropertyEntity {
     @JoinColumn(name = "property_id", insertable=false, updatable=false)
     private PropertyEntity propertyId;
 
-    @Size(min = 1, message = "Price should not be less than 1 (one).")
+    @DecimalMin(value = "0.01", message = "Price should not be less than 0.01.")
     private BigDecimal price;
 
 }

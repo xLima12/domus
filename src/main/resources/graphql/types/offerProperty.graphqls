@@ -1,7 +1,12 @@
+enum OfferType {
+    SALE
+    RENT
+}
+
 type OfferProperty {
     id: ID!
     date: String
-    offerType: Int!
+    offerType: OfferType!
     property_id: String!
-    price: String!
+    price: Float!
 }
