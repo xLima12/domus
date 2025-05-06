@@ -1,8 +1,10 @@
 type Mutation {
+    signInCompany(input: AuthInput!): Auth!
     createCompany(input: CompanyInput!): Company!
     updateCompany(id: ID!, input: CompanyInput!): Company!
     deleteCompany(id: ID!): Boolean!
 
+    signInEmployee(input: AuthInput!): Auth!
     createEmployee(input: EmployeeInput!): Employee!
     updateEmployee(id: ID!, input: EmployeeInput!): Employee!
     deleteEmployee(id: ID!): Boolean!
