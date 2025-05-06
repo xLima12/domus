@@ -1,8 +1,11 @@
 package br.com.codenoir.domus.gateway.controller;
 
-import br.com.codenoir.domus.application.dto.EmployeeRequestDTO;
-import br.com.codenoir.domus.application.entity.EmployeeEntity;
-import br.com.codenoir.domus.application.service.EmployeeService;
+import br.com.codenoir.domus.application.auth.dto.AuthRequestDTO;
+import br.com.codenoir.domus.application.auth.dto.AuthResponseDTO;
+import br.com.codenoir.domus.application.employee.dto.EmployeeRequestDTO;
+import br.com.codenoir.domus.application.employee.entity.EmployeeEntity;
+import br.com.codenoir.domus.application.employee.service.AuthEmployeeService;
+import br.com.codenoir.domus.application.employee.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -19,6 +22,9 @@ public class EmployeeResolver {
 
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    private AuthEmployeeService authEmployeeService;
 
     @QueryMapping
     public Optional<EmployeeEntity> getEmployee(@Argument UUID id) {
@@ -43,6 +49,11 @@ public class EmployeeResolver {
     @MutationMapping
     public Boolean deleteEmployee(@Argument UUID id) {
         return employeeService.delete(id);
+    }
+
+    @MutationMapping
+    public AuthResponseDTO signInEmployee(@Argument AuthRequestDTO input) {
+        return authEmployeeService.signIn(input);
     }
 
 }

@@ -4,4 +4,5 @@ input CompanyInput {
     password: String!
     cnpj: String!
     emailAddress: String!
+    roles: [String!]!
 }

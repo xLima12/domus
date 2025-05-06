@@ -1,8 +1,11 @@
 package br.com.codenoir.domus.gateway.controller;
 
-import br.com.codenoir.domus.application.dto.CompanyRequestDTO;
-import br.com.codenoir.domus.application.entity.CompanyEntity;
-import br.com.codenoir.domus.application.service.CompanyService;
+import br.com.codenoir.domus.application.auth.dto.AuthRequestDTO;
+import br.com.codenoir.domus.application.auth.dto.AuthResponseDTO;
+import br.com.codenoir.domus.application.company.dto.CompanyRequestDTO;
+import br.com.codenoir.domus.application.company.entity.CompanyEntity;
+import br.com.codenoir.domus.application.company.service.AuthCompanyService;
+import br.com.codenoir.domus.application.company.service.CompanyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -19,6 +22,9 @@ public class CompanyResolver {
 
     @Autowired
     private CompanyService companyService;
+
+    @Autowired
+    private AuthCompanyService authCompanyService;
 
     @QueryMapping
     public Optional<CompanyEntity> getCompany(@Argument UUID id) {
@@ -43,6 +49,11 @@ public class CompanyResolver {
     @MutationMapping
     public Boolean deleteCompany(@Argument UUID id) {
         return companyService.delete(id);
+    }
+
+    @MutationMapping
+    public AuthResponseDTO signInCompany(@Argument AuthRequestDTO input) {
+        return authCompanyService.signIn(input);
     }
 
 }

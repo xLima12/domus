@@ -1,8 +1,8 @@
 package br.com.codenoir.domus.gateway.controller;
 
-import br.com.codenoir.domus.application.dto.PropertyRequestDTO;
-import br.com.codenoir.domus.application.entity.PropertyEntity;
-import br.com.codenoir.domus.application.service.PropertyService;
+import br.com.codenoir.domus.application.property.dto.PropertyRequestDTO;
+import br.com.codenoir.domus.application.property.entity.PropertyEntity;
+import br.com.codenoir.domus.application.property.service.PropertyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
