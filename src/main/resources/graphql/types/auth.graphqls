@@ -1,0 +1,5 @@
+type Auth {
+    token: String
+    expiresIn: String
+    roles: String
+}
