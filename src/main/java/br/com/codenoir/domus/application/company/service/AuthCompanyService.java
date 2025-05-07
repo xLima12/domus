@@ -2,6 +2,7 @@ package br.com.codenoir.domus.application.company.service;
 
 import br.com.codenoir.domus.application.auth.dto.AuthRequestDTO;
 import br.com.codenoir.domus.application.auth.dto.AuthResponseDTO;
+import br.com.codenoir.domus.application.auth.service.AuthService;
 import br.com.codenoir.domus.application.company.repository.CompanyRepository;
 import br.com.codenoir.domus.application.security.BCryptPasswordEncoderService;
 import br.com.codenoir.domus.application.shared.vo.Username;
@@ -25,35 +26,20 @@ public class AuthCompanyService {
     private CompanyRepository companyRepository;
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private BCryptPasswordEncoderService passwordEncoderService;
 
     public AuthResponseDTO signIn(AuthRequestDTO authRequestDTO) {
-        var company = this.companyRepository.findByUsername(new Username(authRequestDTO.getUsername().getValue()))
-            .orElseThrow(() -> new IllegalArgumentException("Username/password incorrect"));
-
-        var passwordMatches = passwordEncoderService.matches(authRequestDTO.getPassword().getValue(),
-            company.getPassword().getValue());
-
-        if(!passwordMatches) {
-            throw new IllegalArgumentException("Username/password incorrect");
-        }
-
-        var roles = company.getRoles().toString();
-
-        Algorithm algorithm = Algorithm.HMAC256(secretKey);
-
-        var expiresIn = Instant.now().plus(Duration.ofHours(2));
-
-        String issuer = "domus";
-
-        var token = JWT.create()
-            .withIssuer(issuer)
-            .withExpiresAt(expiresIn)
-            .withSubject(company.getId().toString())
-            .withClaim("roles", List.of(roles))
-            .sign(algorithm);
-
-        return new AuthResponseDTO(token, expiresIn.toString(), roles);
+        return authService.authenticate(
+            secretKey,
+            companyRepository.findByUsername(new Username(authRequestDTO.getUsername().getValue())),
+            company -> company.getId().toString(),
+            company -> company.getPassword().getValue(),
+            company -> company.getRoles().toString(),
+            authRequestDTO.getPassword().getValue()
+        );
     }
 
 }
