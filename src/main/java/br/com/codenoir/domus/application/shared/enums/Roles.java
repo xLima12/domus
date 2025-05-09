@@ -10,7 +10,8 @@ public enum Roles {
 
     ADMIN(0),
     SURVEYOR(1),
-    COMPANY(2);
+    COMPANY(2),
+    MASTER(3);
 
     private final int role;
 

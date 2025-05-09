@@ -1,8 +1,11 @@
 package br.com.codenoir.domus.application.auth.dto;
 
+import br.com.codenoir.domus.application.shared.enums.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -11,6 +14,6 @@ public class AuthResponseDTO {
 
     private String token;
     private String expiresIn;
-    private String roles;
+    private List<Roles> roles;
 
 }

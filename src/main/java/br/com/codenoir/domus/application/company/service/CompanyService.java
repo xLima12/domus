@@ -3,6 +3,7 @@ package br.com.codenoir.domus.application.company.service;
 import br.com.codenoir.domus.application.company.dto.CompanyRequestDTO;
 import br.com.codenoir.domus.application.company.entity.CompanyEntity;
 import br.com.codenoir.domus.application.company.repository.CompanyRepository;
+import br.com.codenoir.domus.application.exception.NotFoundException;
 import br.com.codenoir.domus.application.security.BCryptPasswordEncoderService;
 import br.com.codenoir.domus.application.shared.vo.CNPJ;
 import br.com.codenoir.domus.application.shared.vo.EmailAddress;
@@ -10,7 +11,6 @@ import br.com.codenoir.domus.application.shared.vo.Password;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -52,7 +52,7 @@ public class CompanyService {
             existingCompany.setCnpj(new CNPJ(companyRequest.getCnpj().getValue()));
             existingCompany.setEmailAddress(new EmailAddress(companyRequest.getEmailAddress().getValue()));
             return companyRepository.save(existingCompany);
-        }).orElseThrow(() -> new IllegalArgumentException("Company not found with id: " + id));
+        }).orElseThrow(() -> new NotFoundException("Company not found"));
     }
 
     public Boolean delete(UUID id) {

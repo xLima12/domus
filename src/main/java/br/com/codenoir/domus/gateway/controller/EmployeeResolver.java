@@ -6,6 +6,9 @@ import br.com.codenoir.domus.application.employee.dto.EmployeeRequestDTO;
 import br.com.codenoir.domus.application.employee.entity.EmployeeEntity;
 import br.com.codenoir.domus.application.employee.service.AuthEmployeeService;
 import br.com.codenoir.domus.application.employee.service.EmployeeService;
+import br.com.codenoir.domus.application.security.DomusGraphQLContext;
+import br.com.codenoir.domus.application.security.DomusRolesAllowed;
+import graphql.schema.DataFetchingEnvironment;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -21,33 +24,46 @@ import java.util.UUID;
 public class EmployeeResolver {
 
     @Autowired
-    EmployeeService employeeService;
+    private EmployeeService employeeService;
 
     @Autowired
     private AuthEmployeeService authEmployeeService;
 
+    @DomusRolesAllowed(value = {"MASTER", "COMPANY", "ADMIN"})
     @QueryMapping
-    public Optional<EmployeeEntity> getEmployee(@Argument UUID id) {
+    public Optional<EmployeeEntity> getEmployee(@Argument UUID id, DataFetchingEnvironment environment) {
+        DomusGraphQLContext userContext = environment.getGraphQlContext().get("auth");
         return employeeService.findByIdEmployee(id);
     }
 
+    @DomusRolesAllowed(value = {"MASTER", "COMPANY", "ADMIN"})
     @QueryMapping
-    public List<EmployeeEntity> getAllEmployees() {
+    public List<EmployeeEntity> getAllEmployees(DataFetchingEnvironment environment) {
+        DomusGraphQLContext userContext = environment.getGraphQlContext().get("auth");
         return employeeService.findAllEmployees();
     }
 
+    @DomusRolesAllowed(value = {"MASTER", "COMPANY", "ADMIN"})
     @MutationMapping
-    public EmployeeEntity createEmployee(@Argument @Valid EmployeeRequestDTO input) {
+    public EmployeeEntity createEmployee(@Argument @Valid EmployeeRequestDTO input,
+                                         DataFetchingEnvironment environment) {
+        DomusGraphQLContext userContext = environment.getGraphQlContext().get("auth");
         return employeeService.create(input);
     }
 
+    @DomusRolesAllowed(value = {"MASTER", "COMPANY", "ADMIN"})
     @MutationMapping
-    public EmployeeEntity updateEmployee(@Argument UUID id, @Argument @Valid EmployeeRequestDTO input) {
+    public EmployeeEntity updateEmployee(@Argument UUID id,
+                                         @Argument @Valid EmployeeRequestDTO input,
+                                         DataFetchingEnvironment environment) {
+        DomusGraphQLContext userContext = environment.getGraphQlContext().get("auth");
         return employeeService.update(id, input);
     }
 
+    @DomusRolesAllowed(value = {"MASTER", "COMPANY", "ADMIN"})
     @MutationMapping
-    public Boolean deleteEmployee(@Argument UUID id) {
+    public Boolean deleteEmployee(@Argument UUID id, DataFetchingEnvironment environment) {
+        DomusGraphQLContext userContext = environment.getGraphQlContext().get("auth");
         return employeeService.delete(id);
     }
 

@@ -3,6 +3,9 @@ package br.com.codenoir.domus.gateway.controller;
 import br.com.codenoir.domus.application.owner.dto.OwnerRequestDTO;
 import br.com.codenoir.domus.application.owner.entity.OwnerEntity;
 import br.com.codenoir.domus.application.owner.service.OwnerService;
+import br.com.codenoir.domus.application.security.DomusGraphQLContext;
+import br.com.codenoir.domus.application.security.DomusRolesAllowed;
+import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -17,32 +20,42 @@ import java.util.UUID;
 public class OwnerResolver {
 
     @Autowired
-    OwnerService ownerService;
+    private OwnerService ownerService;
 
+    @DomusRolesAllowed(value = {"MASTER", "COMPANY", "ADMIN"})
     @QueryMapping
-    public Optional<OwnerEntity> getOwner(@Argument UUID id) {
+    public Optional<OwnerEntity> getOwner(@Argument UUID id, DataFetchingEnvironment environment) {
+        DomusGraphQLContext userContext = environment.getGraphQlContext().get("auth");
         return ownerService.findById(id);
     }
 
+    @DomusRolesAllowed(value = {"MASTER", "COMPANY", "ADMIN"})
     @QueryMapping
-    public List<OwnerEntity> getAllOwners() {
+    public List<OwnerEntity> getAllOwners(DataFetchingEnvironment environment) {
+        DomusGraphQLContext userContext = environment.getGraphQlContext().get("auth");
         return ownerService.findAll();
     }
 
+    @DomusRolesAllowed(value = {"MASTER", "COMPANY", "ADMIN"})
     @MutationMapping
-    public OwnerEntity createOwner(@Argument OwnerRequestDTO input) {
-        System.out.println("Dados da requisiçao:");
-        System.out.println(input.getOwnerType());
+    public OwnerEntity createOwner(@Argument OwnerRequestDTO input, DataFetchingEnvironment environment) {
+        DomusGraphQLContext userContext = environment.getGraphQlContext().get("auth");
         return ownerService.create(input);
     }
 
+    @DomusRolesAllowed(value = {"MASTER", "COMPANY", "ADMIN"})
     @MutationMapping
-    public OwnerEntity updateOwner(@Argument UUID id, @Argument OwnerRequestDTO input) {
+    public OwnerEntity updateOwner(@Argument UUID id,
+                                   @Argument OwnerRequestDTO input,
+                                   DataFetchingEnvironment environment) {
+        DomusGraphQLContext userContext = environment.getGraphQlContext().get("auth");
         return ownerService.update(id, input);
     }
 
+    @DomusRolesAllowed(value = {"MASTER", "COMPANY", "ADMIN"})
     @MutationMapping
-    public boolean deleteOwner(@Argument UUID id) {
+    public boolean deleteOwner(@Argument UUID id, DataFetchingEnvironment environment) {
+        DomusGraphQLContext userContext = environment.getGraphQlContext().get("auth");
         return ownerService.delete(id);
     }
 

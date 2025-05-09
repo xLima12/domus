@@ -1,24 +1,17 @@
 package br.com.codenoir.domus.application.employee.service;
 
-import br.com.codenoir.domus.application.auth.dto.AuthRequestDTO;
-import br.com.codenoir.domus.application.auth.dto.AuthResponseDTO;
 import br.com.codenoir.domus.application.employee.dto.EmployeeRequestDTO;
 import br.com.codenoir.domus.application.employee.entity.EmployeeEntity;
 import br.com.codenoir.domus.application.company.repository.CompanyRepository;
 import br.com.codenoir.domus.application.employee.repository.EmployeeRepository;
+import br.com.codenoir.domus.application.exception.NotFoundException;
 import br.com.codenoir.domus.application.security.BCryptPasswordEncoderService;
 import br.com.codenoir.domus.application.shared.vo.EmailAddress;
 import br.com.codenoir.domus.application.shared.vo.Password;
 import br.com.codenoir.domus.application.shared.vo.Username;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,7 +42,7 @@ public class EmployeeService {
         var employee = new EmployeeEntity();
 
         var company = companyRepository.findById(UUID.fromString(employeeRequest.getCompany_id()))
-                .orElseThrow(() -> new IllegalArgumentException("Company not found"));
+                .orElseThrow(() -> new NotFoundException("Company not found"));
 
         employee.setUsername(new Username(employeeRequest.getUsername().getValue()));
         employee.setPassword(new Password(encodedPassword));
@@ -70,7 +63,7 @@ public class EmployeeService {
             existingEmployee.setEmailAddress(new EmailAddress(employeeRequest.getEmailAddress().getValue()));
             existingEmployee.setRoles(employeeRequest.getRoles());
             return employeeRepository.save(existingEmployee);
-        }).orElseThrow(() -> new IllegalArgumentException("Employee not found with id: " + id));
+        }).orElseThrow(() -> new NotFoundException("Employee not found"));
     }
 
     public Boolean delete(UUID id) {
