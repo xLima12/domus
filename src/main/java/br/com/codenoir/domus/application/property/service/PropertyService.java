@@ -1,5 +1,6 @@
 package br.com.codenoir.domus.application.property.service;
 
+import br.com.codenoir.domus.application.exception.NotFoundException;
 import br.com.codenoir.domus.application.property.dto.PropertyRequestDTO;
 import br.com.codenoir.domus.application.property.entity.PropertyEntity;
 import br.com.codenoir.domus.application.owner.repository.OwnerRepository;
@@ -30,7 +31,7 @@ public class PropertyService {
 
     public PropertyEntity create(PropertyRequestDTO propertyRequestDTO) {
         var owner = ownerRepository.findById(UUID.fromString(propertyRequestDTO.getOwner_id()))
-            .orElseThrow(() -> new IllegalArgumentException("Owner not found"));
+            .orElseThrow(() -> new NotFoundException("Owner not found"));
         var property = new PropertyEntity();
 
         property.setName(propertyRequestDTO.getName());
@@ -48,7 +49,7 @@ public class PropertyService {
 
     public PropertyEntity update(UUID id, PropertyRequestDTO propertyRequestDTO) {
         var owner = ownerRepository.findById(UUID.fromString(propertyRequestDTO.getOwner_id()))
-            .orElseThrow(() -> new IllegalArgumentException("Owner not found"));
+            .orElseThrow(() -> new NotFoundException("Owner not found"));
         return propertyRepository.findById(id).map(existingProperty -> {
             existingProperty.setName(propertyRequestDTO.getName());
             existingProperty.setAddress(propertyRequestDTO.getAddress());
@@ -60,7 +61,7 @@ public class PropertyService {
             existingProperty.setBasement(propertyRequestDTO.getBasement());
             existingProperty.setOwner(owner);
             return propertyRepository.save(existingProperty);
-        }).orElseThrow(() -> new IllegalArgumentException("Property not found"));
+        }).orElseThrow(() -> new NotFoundException("Property not found"));
     }
 
     public boolean delete(UUID id) {

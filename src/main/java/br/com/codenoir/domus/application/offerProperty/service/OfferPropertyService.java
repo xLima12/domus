@@ -1,5 +1,6 @@
 package br.com.codenoir.domus.application.offerProperty.service;
 
+import br.com.codenoir.domus.application.exception.NotFoundException;
 import br.com.codenoir.domus.application.offerProperty.dto.OfferPropertyRequestDTO;
 import br.com.codenoir.domus.application.offerProperty.entity.OfferPropertyEntity;
 import br.com.codenoir.domus.application.shared.enums.OfferType;
@@ -32,7 +33,7 @@ public class OfferPropertyService {
 
     public OfferPropertyEntity create(OfferPropertyRequestDTO offerPropertyRequestDTO) {
         var property = propertyRepository.findById(UUID.fromString(offerPropertyRequestDTO.getProperty_id()))
-            .orElseThrow(() -> new IllegalArgumentException("Property not found"));
+            .orElseThrow(() -> new NotFoundException("Property not found"));
 
         var offerProperty = new OfferPropertyEntity();
 
@@ -45,14 +46,14 @@ public class OfferPropertyService {
 
     public OfferPropertyEntity update(UUID id, OfferPropertyRequestDTO offerPropertyRequestDTO) {
         var property = propertyRepository.findById(UUID.fromString(offerPropertyRequestDTO.getProperty_id()))
-            .orElseThrow(() -> new IllegalArgumentException("Property not found"));
+            .orElseThrow(() -> new NotFoundException("Property not found"));
 
         return offerPropertyRepository.findById(id).map(existingOfferProperty -> {
             existingOfferProperty.setOfferType(OfferType.fromCode(offerPropertyRequestDTO.getOfferType()));
             existingOfferProperty.setPropertyId(property);
             existingOfferProperty.setPrice(new BigDecimal(String.valueOf(offerPropertyRequestDTO.getPrice())));
             return offerPropertyRepository.save(existingOfferProperty);
-        }).orElseThrow(() -> new IllegalArgumentException("Offer property not found with id: " + id));
+        }).orElseThrow(() -> new NotFoundException("Offer property not found"));
     }
 
     public boolean delete(UUID id) {
