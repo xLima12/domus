@@ -1,5 +1,6 @@
 package br.com.codenoir.domus.application.shared.enums;
 
+import br.com.codenoir.domus.application.exception.NotFoundException;
 import lombok.Getter;
 
 @Getter
@@ -21,7 +22,7 @@ public enum OwnerType {
             }
         }
 
-        throw new IllegalArgumentException("Owner type invalid: " + ownerType);
+        throw new NotFoundException("Owner type not found");
     }
 
 }
