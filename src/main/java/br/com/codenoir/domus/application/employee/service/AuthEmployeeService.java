@@ -3,18 +3,13 @@ package br.com.codenoir.domus.application.employee.service;
 import br.com.codenoir.domus.application.auth.dto.AuthRequestDTO;
 import br.com.codenoir.domus.application.auth.dto.AuthResponseDTO;
 import br.com.codenoir.domus.application.auth.service.AuthService;
+import br.com.codenoir.domus.application.employee.entity.EmployeeEntity;
 import br.com.codenoir.domus.application.employee.repository.EmployeeRepository;
 import br.com.codenoir.domus.application.security.BCryptPasswordEncoderService;
 import br.com.codenoir.domus.application.shared.vo.Username;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.time.Duration;
-import java.time.Instant;
-import java.util.List;
 
 @Service
 public class AuthEmployeeService {
@@ -37,7 +32,7 @@ public class AuthEmployeeService {
             employeeRepository.findByUsername(new Username(authRequestDTO.getUsername().getValue())),
             employee -> employee.getId().toString(),
             employee -> employee.getPassword().getValue(),
-            employee -> employee.getRoles().toString(),
+            EmployeeEntity::getRoles,
             authRequestDTO.getPassword().getValue()
         );
     }

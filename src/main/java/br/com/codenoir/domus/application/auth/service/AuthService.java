@@ -2,6 +2,7 @@ package br.com.codenoir.domus.application.auth.service;
 
 import br.com.codenoir.domus.application.auth.dto.AuthResponseDTO;
 import br.com.codenoir.domus.application.security.BCryptPasswordEncoderService;
+import br.com.codenoir.domus.application.shared.enums.Roles;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -25,7 +26,7 @@ public class AuthService {
         Optional<T> entity,
         Function<T, String> idExtractor,
         Function<T, String> passwordGetter,
-        Function<T, String> rolesExtractor,
+        Function<T, List<Roles>> rolesExtractor,
         String requestPassword
     ) {
         var authenticatable = entity.orElseThrow(() -> new IllegalArgumentException("Username/password incorrect"));
@@ -36,7 +37,7 @@ public class AuthService {
             throw new IllegalArgumentException("Username/password incorrect");
         }
 
-        var roles = rolesExtractor.apply(authenticatable);
+        List<Roles> roles = rolesExtractor.apply(authenticatable);
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         var expiresIn = Instant.now().plus(Duration.ofHours(2));
@@ -46,7 +47,7 @@ public class AuthService {
             .withIssuer(issuer)
             .withExpiresAt(expiresIn)
             .withSubject(idExtractor.apply(authenticatable))
-            .withClaim("roles", List.of(roles))
+            .withClaim("roles", roles.stream().map(Roles::name).collect(Collectors.toList()))
             .sign(algorithm);
 
         return new AuthResponseDTO(token, expiresIn.toString(), roles);

@@ -1,14 +1,13 @@
 package br.com.codenoir.domus.application.owner.service;
 
+import br.com.codenoir.domus.application.exception.NotFoundException;
 import br.com.codenoir.domus.application.owner.dto.OwnerRequestDTO;
 import br.com.codenoir.domus.application.owner.entity.OwnerEntity;
 import br.com.codenoir.domus.application.shared.enums.OwnerType;
 import br.com.codenoir.domus.application.owner.repository.OwnerRepository;
-import br.com.codenoir.domus.application.security.BCryptPasswordEncoderService;
 import br.com.codenoir.domus.application.shared.vo.CNPJ;
 import br.com.codenoir.domus.application.shared.vo.CPF;
 import br.com.codenoir.domus.application.shared.vo.EmailAddress;
-import br.com.codenoir.domus.application.shared.vo.Password;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +58,7 @@ public class OwnerService {
                 case INDIVIDUAL -> existingOwner.setCpf(new CPF(ownerRequestDTO.getDocument()));
             }
             return ownerRepository.save(existingOwner);
-        }).orElseThrow(() -> new IllegalArgumentException("Owner not found"));
+        }).orElseThrow(() -> new NotFoundException("Owner not found"));
     }
 
     public boolean delete(UUID id) {

@@ -1,5 +1,7 @@
 package br.com.codenoir.domus.application.shared.enums;
 
+import br.com.codenoir.domus.application.exception.NotFoundException;
+
 public enum OfferType {
 
     SALE(0),
@@ -22,7 +24,7 @@ public enum OfferType {
             }
         }
 
-        throw new IllegalArgumentException("Code invalid for OfferType: " + code);
+        throw new NotFoundException("OfferType not found");
     }
 
 }
